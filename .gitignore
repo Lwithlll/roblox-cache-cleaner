@@ -1,0 +1,20 @@
+# ---------------------------------------------------------------
+# Deny by default, allow only what this repository publishes.
+#
+# A blocklist would have to name every build artefact, script and
+# stray folder -- and miss one eventually. Once a file is pushed it
+# stays in the git history even after it is deleted, so the safe
+# direction is: ignore everything, then whitelist.
+#
+# Nothing below the allow-list should ever appear in this repo.
+# ---------------------------------------------------------------
+*
+
+# git needs to be able to descend into directories
+!*/
+
+# --- published ---
+!.gitignore
+!README.md
+!docs/**
+

@@ -631,6 +631,7 @@ if (heroBtn && "IntersectionObserver" in window) {
     theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
   }
   document.documentElement.dataset.theme = theme;
+  // Follow the browser language on a first visit; a manual choice always wins.
   if (!lang) {
     lang = (navigator.language || "en").toLowerCase().indexOf("zh") === 0 ? "zh" : "en";
   }

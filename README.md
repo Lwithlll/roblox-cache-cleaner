@@ -98,7 +98,7 @@ Not affiliated with, endorsed by, or supported by Roblox Corporation.
 "Roblox" is a trademark of Roblox Corporation. This is an unofficial third-party
 tool.
 
-Contact: Aflyers@outlook.com
+Contact: Aflyres@outlook.com
 
 ---
 
@@ -177,7 +177,7 @@ Windows Defender、火绒、360 等可能报毒。
 本项目与 Roblox Corporation 无任何关联，未获其认可或支持。
 「Roblox」是 Roblox Corporation 的商标。这是一个非官方第三方工具。
 
-联系邮箱：Aflyers@outlook.com
+联系邮箱：Aflyres@outlook.com
 
 ---
 

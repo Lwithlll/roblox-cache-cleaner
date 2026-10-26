@@ -631,9 +631,11 @@ if (heroBtn && "IntersectionObserver" in window) {
     theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
   }
   document.documentElement.dataset.theme = theme;
-  // Follow the browser language on a first visit; a manual choice always wins.
+  // English is the default for a first visit; a manual choice is remembered.
+  // Deliberately not using navigator.language: the audience is international and
+  // guessing produced Chinese on Chinese systems, which is the wrong default.
   if (!lang) {
-    lang = (navigator.language || "en").toLowerCase().indexOf("zh") === 0 ? "zh" : "en";
+    lang = "en";
   }
   document.documentElement.dataset.lang = "__init";
   setLang(lang, true);

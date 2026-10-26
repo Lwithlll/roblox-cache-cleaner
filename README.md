@@ -20,9 +20,11 @@ Windows 10 / 11 · 64-bit · No installation, no runtime, no admin rights
 
 Unzip it anywhere and run `Roblox Cache Cleaner Pro.exe`.
 
-<!-- VIRUSTOTAL: replace the line below with your scan link, e.g.
-[VirusTotal report](https://www.virustotal.com/gui/file/<sha256>) · SHA-256: `<hash>`
--->
+[**VirusTotal report**](https://www.virustotal.com/gui/file/081f15b285f7862ac7c134f314de3449d478d19e8c614153e95d730a6233cbd4) — 56 of 57 engines find nothing.
+The one that does (Bkav) is a known false positive on unsigned builds; see
+[Antivirus](#antivirus) below.
+
+SHA-256: `081f15b285f7862ac7c134f314de3449d478d19e8c614153e95d730a6233cbd4`
 
 > The executable is not code-signed. See [Antivirus](#antivirus) below.
 
@@ -67,7 +69,13 @@ unpacks native modules at runtime. Both of those look suspicious to heuristic
 scanners, so Windows Defender, Huorong, 360 and similar tools may flag it.
 
 This is a false positive caused by the packaging method, not by anything the
-program does. To allow it:
+program does.
+
+**The current build's [VirusTotal report](https://www.virustotal.com/gui/file/081f15b285f7862ac7c134f314de3449d478d19e8c614153e95d730a6233cbd4)**: 56 engines clean, 1 flags it
+(Bkav, `W32.Malware.653B6344`). Bkav is well known for flagging unsigned
+PyInstaller and Cython builds; the signature is generic, not behavioural.
+
+To allow it:
 
 - **Windows Defender** — Windows Security → Virus & threat protection →
   Manage settings → Exclusions → Add an exclusion → File
@@ -152,7 +160,13 @@ from ctypes import wintypes
 程序**未做代码签名**，且是单文件自解压结构，两者都会让启发式引擎警觉，
 Windows Defender、火绒、360 等可能报毒。
 
-这是打包方式导致的误报，不是程序行为有问题。加白方法：
+这是打包方式导致的误报，不是程序行为有问题。
+
+**当前版本的 [VirusTotal 报告](https://www.virustotal.com/gui/file/081f15b285f7862ac7c134f314de3449d478d19e8c614153e95d730a6233cbd4)**：56 家引擎未发现威胁，1 家报毒
+（Bkav，`W32.Malware.653B6344`）。Bkav 对未签名的 PyInstaller / Cython 打包程序
+误报率很高，这个签名是通用的，不是行为判定。
+
+加白方法：
 
 - **Windows Defender** —— Windows 安全中心 → 病毒和威胁防护 → 管理设置 →
   排除项 → 添加或删除排除项 → 文件

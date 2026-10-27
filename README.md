@@ -79,7 +79,7 @@ Something broken? Aflyres@outlook.com
 
 ## 中文
 
-roblox缓存残留清理工具。
+# Roblox Cache Cleaner Pro
 
 Windows 10 / 11，64 位
 
@@ -89,17 +89,17 @@ Windows 10 / 11，64 位
 
 解压到任意位置，双击 `Roblox Cache Cleaner Pro.exe`。
 
-[VirusTotal 报告](https://www.virustotal.com/gui/file/ca6057cfaf73988610ac4bfa0c13179030ec64fb7bdf0d8a08acc0684fa5d4c7)：67 家引擎里 66 家没报。报的那家是 Bkav，它报错了。
+[VirusTotal 报告](https://www.virustotal.com/gui/file/ca6057cfaf73988610ac4bfa0c13179030ec64fb7bdf0d8a08acc0684fa5d4c7)：67 家引擎里 66 家无报错
 
 SHA-256：`ca6057cfaf73988610ac4bfa0c13179030ec64fb7bdf0d8a08acc0684fa5d4c7`
 
 ![主界面](docs/img/main.png)
 
-## 运行
+## 使用大预
 
 **一、检测 Roblox 在不在运行。** 如正在运行，请退出 Roblox 再使用，避免问题
 
-**二、删掉五个目录里的东西**，都在 `%LOCALAPPDATA%\Roblox\` 下面：
+**二、确认清理后删掉五个目录里的东西**，都在 `%LOCALAPPDATA%\Roblox\` 下面：
 
 ```
 rbx-storage/    logs/    Downloads/    OTAPatchBackups/    tmp-capture-storage/

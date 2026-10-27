@@ -4,14 +4,11 @@ Windows 10 / 11, 64-bit
 
 **English** · [中文](#中文)
 
-
 ## Download
 
 **[Get the latest release](https://github.com/Lwithlll/roblox-cache-cleaner/releases/latest)**
 
 Unzip it anywhere after downloading.
-
-![Main window](https://github.com/Lwithlll/roblox-cache-cleaner/raw/main/docs/img/main.png)
 
 ## How to use
 
@@ -84,8 +81,6 @@ Windows 10 / 11，64 位
 **[下载最新版本](https://github.com/Lwithlll/roblox-cache-cleaner/releases/latest)**
 
 下载完成后解压到任意位置
-
-![主界面](https://github.com/Lwithlll/roblox-cache-cleaner/raw/main/docs/img/main.png)
 
 ## 使用教程
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-lang="en" data-theme="dark">
+<html lang="en" data-lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -241,6 +241,9 @@ h2 { font-size: 22px; font-weight: 600; letter-spacing: -.02em; margin: 0; }
 
 p.body { color: var(--ink-2); margin: 0 0 22px; max-width: 58ch; font-size: 15.5px;
          text-wrap: pretty; }
+/* CJK needs no measure cap: a 40-character sentence is short here, and the
+   58ch limit was breaking it across two lines for no reason */
+html[data-lang="zh"] p.body { max-width: none; }
 
 /* folder table */
 .folders { border-top: 1px solid var(--hairline); }
@@ -304,22 +307,31 @@ p.body { color: var(--ink-2); margin: 0 0 22px; max-width: 58ch; font-size: 15.5
 }
 
 /* stats */
-/* VirusTotal report link */
+/* VirusTotal report link -- styled as a button so it reads as clickable */
 .vt {
-  display: flex; align-items: center; gap: 14px;
-  margin: 24px 0 0; padding: 15px 20px;
+  display: flex; align-items: center; gap: 13px;
+  margin: 24px 0 0; padding: 16px 20px;
   border: 1px solid var(--hairline); border-radius: 10px;
+  background: var(--surface);
   text-decoration: none; color: var(--ink);
-  transition: border-color .2s var(--ease), background .2s var(--ease);
+  transition: border-color .18s var(--ease), background .18s var(--ease), transform .18s var(--ease);
 }
-.vt:hover { border-color: var(--ink-3); background: var(--surface); }
-.vt-label { font-size: 14.5px; }
+.vt:hover { border-color: var(--signal); transform: translateY(-1px); }
+.vt:active { transform: translateY(0); }
+.vt-ico { width: 17px; height: 17px; color: var(--signal); flex: none; }
+.vt-label { font-size: 14.5px; font-weight: 550; letter-spacing: -.005em; }
+.vt-hint {
+  font-size: 12.5px; color: var(--ink-3);
+  border-left: 1px solid var(--hairline); padding-left: 13px; margin-left: 2px;
+}
 .vt-score {
   margin-left: auto; font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
-  font-size: 13px; color: var(--signal); letter-spacing: .02em;
+  font-size: 12.5px; color: var(--signal); letter-spacing: .02em;
+  border: 1px solid color-mix(in srgb, var(--signal) 35%, transparent);
+  border-radius: 999px; padding: 3px 10px;
 }
-.vt svg { width: 13px; height: 13px; color: var(--ink-3); flex: none; }
-.vt:hover svg { color: var(--ink-2); }
+.vt-arrow { width: 13px; height: 13px; color: var(--ink-3); flex: none; transition: transform .18s var(--ease); }
+.vt:hover .vt-arrow { color: var(--signal); transform: translate(1px, -1px); }
 
 .stats {
   display: grid; grid-template-columns: repeat(3, 1fr);
@@ -495,7 +507,7 @@ html.js .reveal.in { opacity: 1; transform: none; filter: none; }
 <span class="k">import</span> ctypes, os, re, shutil
 <span class="k">from</span> ctypes <span class="k">import</span> wintypes
 
-<span class="c"># process check: read-only enumeration, same API as Task Manager</span>
+<span class="c"># process check: read-only, same as Task Manager</span>
 CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0)
 Process32FirstW(...)   Process32NextW(...)<span class="caret"></span></pre>
 
@@ -516,12 +528,11 @@ Process32FirstW(...)   Process32NextW(...)<span class="caret"></span></pre>
     </div>
     <p class="body reveal" style="--d:1" data-en>
       The exe is unsigned, and it unpacks native modules at launch. Both trip
-      heuristic scanners, so Defender, Huorong or 360 may flag it. That is a
-      packaging artefact, not behaviour.
+      heuristic scanners, so some antivirus software may flag it — though that is
+      unlikely.
     </p>
     <p class="body reveal" style="--d:1" data-zh>
-      因程序未签名，且启动时会解出原生模块。这两点都会触发启发式引擎，Defender、火绒、360
-      可能报毒。
+      因程序未签名，且启动时会解出原生模块。这两点都会触发启发式引擎，部分杀毒软件可能报毒，但概率较低。
     </p>
 
     <p class="note reveal" style="--d:2" data-en>
@@ -529,16 +540,23 @@ Process32FirstW(...)   Process32NextW(...)<span class="caret"></span></pre>
       <code>%LOCALAPPDATA%\Roblox\rbx-storage\</code> by hand does exactly the same thing.
     </p>
     <p class="note reveal" style="--d:2" data-zh>
-      不放心？手动删除 <code>%LOCALAPPDATA%\Roblox\rbx-storage\</code> 里的内容，效果完全一样。
+      不放心？手动删除 <code>%LOCALAPPDATA%\Roblox\rbx-storage\</code> 里的内容效果完全一样。
     </p>
 
     <a class="vt reveal" style="--d:2"
        href="https://www.virustotal.com/gui/file/ca6057cfaf73988610ac4bfa0c13179030ec64fb7bdf0d8a08acc0684fa5d4c7"
        target="_blank" rel="noopener">
+      <svg class="vt-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3l7 3v6c0 4.2-2.9 7.6-7 9-4.1-1.4-7-4.8-7-9V6l7-3z"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
       <span class="vt-label" data-en>VirusTotal report</span>
       <span class="vt-label" data-zh>VirusTotal 检测报告</span>
+      <span class="vt-hint" data-en>opens in a new tab</span>
+      <span class="vt-hint" data-zh>新窗口打开</span>
       <span class="vt-score">66 / 67</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+      <svg class="vt-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
            stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
     </a>
 
@@ -602,7 +620,7 @@ function setLang(lang, instant) {
     root.lang = lang === "zh" ? "zh-CN" : "en";
     document.getElementById("btnEn").setAttribute("aria-pressed", lang === "en");
     document.getElementById("btnZh").setAttribute("aria-pressed", lang === "zh");
-    try { localStorage.setItem("lang", lang); } catch (e) {}
+    
   }
   var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (instant || calm) { apply(); return; }
@@ -616,7 +634,7 @@ function setLang(lang, instant) {
 /* ---------- theme ---------- */
 function setTheme(mode) {
   document.documentElement.dataset.theme = mode;
-  try { localStorage.setItem("theme", mode); } catch (e) {}
+  
 }
 document.getElementById("themeBtn").addEventListener("click", function () {
   setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
@@ -660,19 +678,14 @@ if (heroBtn && "IntersectionObserver" in window) {
   }, { threshold: 0 }).observe(heroBtn);
 }
 
-/* ---------- boot: stored prefs, else system ---------- */
+/* ---------- boot: always light + English ---------- */
 (function () {
-  var theme = null, lang = null;
-  try { theme = localStorage.getItem("theme"); lang = localStorage.getItem("lang"); } catch (e) {}
-  if (!theme) {
-    theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-  }
-  document.documentElement.dataset.theme = theme;
-  if (!lang) {
-    lang = (navigator.language || "en").toLowerCase().indexOf("zh") === 0 ? "zh" : "en";
-  }
+  // Deliberately not reading localStorage or navigator.language here: the page
+  // has to look the same for everyone on first paint. The toggles still work
+  // for the current visit, they just don't survive a reload.
+  document.documentElement.dataset.theme = "light";
   document.documentElement.dataset.lang = "__init";
-  setLang(lang, true);
+  setLang("en", true);
 })();
 </script>
 </body>

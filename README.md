@@ -1,8 +1,8 @@
 # Roblox Cache Cleaner Pro
 
-Roblox never deletes its cache. This does.
+Roblox cache leftovers cleaner.
 
-Windows 10 / 11, 64-bit. No installer, no admin rights, nothing to install first.
+Windows 10 / 11, 64-bit
 
 **English** · [中文](#中文)
 
@@ -14,17 +14,15 @@ Windows 10 / 11, 64-bit. No installer, no admin rights, nothing to install first
 
 Unzip it anywhere and run `Roblox Cache Cleaner Pro.exe`.
 
-[VirusTotal](https://www.virustotal.com/gui/file/2c17052d89a5d1052d0571be7f82f6be75f9a8c7d58393c6ea6dd580e1311759): 66 of 67 engines find nothing. The one that does is Bkav, and it's wrong. More on that below.
+[VirusTotal](https://www.virustotal.com/gui/file/ca6057cfaf73988610ac4bfa0c13179030ec64fb7bdf0d8a08acc0684fa5d4c7): 66 of 67 engines find nothing. The one that does is Bkav, and it's wrong.
 
-SHA-256: `2c17052d89a5d1052d0571be7f82f6be75f9a8c7d58393c6ea6dd580e1311759`
+SHA-256: `ca6057cfaf73988610ac4bfa0c13179030ec64fb7bdf0d8a08acc0684fa5d4c7`
 
 ![Main window](docs/img/main.png)
 
-## What it actually does
+## What it does
 
-Two things.
-
-**1. Checks whether Roblox is running.** If it is, the Clean button stays disabled. You don't get to fight a live process for its own files.
+**1. Checks whether Roblox is running.** If it is, close the game first — cleaning while it runs can cause problems.
 
 **2. Deletes the contents of five folders**, all under `%LOCALAPPDATA%\Roblox\`:
 
@@ -32,54 +30,44 @@ Two things.
 rbx-storage/    logs/    Downloads/    OTAPatchBackups/    tmp-capture-storage/
 ```
 
-The folders stay. Only what's inside them goes. Anything not on that list is never opened.
+The folders stay. Only their contents go.
 
-You can untick any of the five before cleaning, and the total on the right only counts what's ticked.
+Any of the five can be unticked before cleaning.
 
-## What it doesn't do
+## Safety
 
-Here's the entire import list from the core module. Not a summary, the whole thing:
+The complete import list of the core module:
 
 ```python
 import ctypes, os, re, shutil
 from ctypes import wintypes
 ```
 
-No `socket`. No `requests`. No `subprocess`. No `winreg`.
+No `socket`, `requests`, `subprocess`, `winreg`.
 
-So it can't go online, can't write to the registry, can't start other programs, can't read game memory. There is no code for any of it.
-
-It also doesn't touch your game files, saves, settings or account.
+Doesn't touch game files, saves, settings or account data.
 
 ## Antivirus
 
-The exe isn't code-signed, and it's packed as a single file that unpacks itself at launch. Both of those look suspicious to scanners, so Defender, Huorong or 360 may pop up a warning.
+The exe isn't code-signed, and it's a single file that unpacks itself at launch. Both of those trip heuristic scanners, so Defender, Huorong or 360 may flag it.
 
-That's a packaging problem, not a behaviour problem. But you shouldn't just take my word for it, so here's the VirusTotal report for the exact file you're downloading: [66 clean, 1 wrong](https://www.virustotal.com/gui/file/2c17052d89a5d1052d0571be7f82f6be75f9a8c7d58393c6ea6dd580e1311759).
+That's a packaging problem, not a behaviour problem. Here's the VirusTotal report: [66 clean, 1 wrong](https://www.virustotal.com/gui/file/ca6057cfaf73988610ac4bfa0c13179030ec64fb7bdf0d8a08acc0684fa5d4c7).
 
-The one flag is Bkav, a Vietnamese engine that's known for this. Its signature is `W32.Malware.7028EDDD`, which is generic, not a behaviour it observed.
+The one flag is Bkav, a Vietnamese engine known for this. Its signature is `W32.Malware.3E69FC40`, generic, not a behaviour it observed.
 
-If you want to allow it anyway:
+To allow it anyway:
 
 - **Windows Defender** → Virus & threat protection → Manage settings → Exclusions → Add an exclusion → File
 - **Huorong** → tray icon → Trust Zone → Add file
 - **360 / PC Manager** → click "Add to trust" in the popup, or restore it from quarantine
 
-Or don't run it at all. Deleting the contents of `%LOCALAPPDATA%\Roblox\rbx-storage\` by hand does the same thing.
-
 ## Questions
 
-**Will this get me banned?**
-No. It deletes local files. Nothing is uploaded, and Roblox rebuilds the cache next launch.
+**Will I get banned?**
+No. Only local files are removed. Nothing is uploaded, and the game rebuilds the cache on its next launch.
 
 **Do I need to close the game first?**
-Yes. The button won't let you start otherwise.
-
-**Can I undo it?**
-No. But it's cache, not your data. It comes back on its own, just slower the first time.
-
-**Why is it so small?**
-It only does one job. There's no updater, no telemetry, no background service.
+Yes, otherwise you may run into problems in-game.
 
 ## Disclaimer
 
@@ -91,9 +79,9 @@ Something broken? Aflyres@outlook.com
 
 ## 中文
 
-Roblox 自己不清缓存。这个工具清。
+roblox缓存残留清理工具。
 
-Windows 10 / 11，64 位。免安装，不用管理员权限，也不用先装别的东西。
+Windows 10 / 11，64 位
 
 ## 下载
 
@@ -101,17 +89,15 @@ Windows 10 / 11，64 位。免安装，不用管理员权限，也不用先装�
 
 解压到任意位置，双击 `Roblox Cache Cleaner Pro.exe`。
 
-[VirusTotal 报告](https://www.virustotal.com/gui/file/2c17052d89a5d1052d0571be7f82f6be75f9a8c7d58393c6ea6dd580e1311759)：67 家引擎里 66 家没报。报的那家是 Bkav，它报错了。
+[VirusTotal 报告](https://www.virustotal.com/gui/file/ca6057cfaf73988610ac4bfa0c13179030ec64fb7bdf0d8a08acc0684fa5d4c7)：67 家引擎里 66 家没报。报的那家是 Bkav，它报错了。
 
-SHA-256：`2c17052d89a5d1052d0571be7f82f6be75f9a8c7d58393c6ea6dd580e1311759`
+SHA-256：`ca6057cfaf73988610ac4bfa0c13179030ec64fb7bdf0d8a08acc0684fa5d4c7`
 
 ![主界面](docs/img/main.png)
 
-## 它到底做什么
+## 运行
 
-就两件事。
-
-**一、看 Roblox 在不在运行。** 在运行的话「开始清理」按钮点不了。不跟正在跑的游戏抢文件。
+**一、检测 Roblox 在不在运行。** 如正在运行，请退出 Roblox 再使用，避免问题
 
 **二、删掉五个目录里的东西**，都在 `%LOCALAPPDATA%\Roblox\` 下面：
 
@@ -119,32 +105,30 @@ SHA-256：`2c17052d89a5d1052d0571be7f82f6be75f9a8c7d58393c6ea6dd580e1311759`
 rbx-storage/    logs/    Downloads/    OTAPatchBackups/    tmp-capture-storage/
 ```
 
-目录留着，只清里面的东西。这个清单之外的，一概不碰。
+目录保留，仅清理这五个缓存文件夹的内容
 
-清理前可以取消勾选任意几项，右边的合计只算你勾上的部分。
+清理前可以取消勾选任意几项
 
-## 它不做什么
+## 安全性
 
-核心模块的 import 就这几行。不是概括，是全部：
+核心模块的全部 import
 
 ```python
 import ctypes, os, re, shutil
 from ctypes import wintypes
 ```
 
-没有 `socket`，没有 `requests`，没有 `subprocess`，没有 `winreg`。
+不含 `socket`，`requests`，`subprocess`，`winreg`。
 
-所以它联不了网、写不了注册表、起不了别的程序、读不了游戏内存。这些代码根本不存在。
-
-游戏文件、存档、设置、账号数据，它也不碰。
+不修改游戏本体文件、存档、设置、账号数据
 
 ## 杀毒软件
 
 exe 没做代码签名，而且是单文件自解压，启动时会释放出东西来。这两点都容易让杀软弹窗，Defender、火绒、360 都可能。
 
-这是打包方式的问题，不是行为的问题。但光我说没用，你下载的那个文件在 VirusTotal 上是 [66 家干净、1 家误报](https://www.virustotal.com/gui/file/2c17052d89a5d1052d0571be7f82f6be75f9a8c7d58393c6ea6dd580e1311759)。
+这是打包方式的问题，不是行为的问题。这是 VirusTotal 的检测 [66 家干净、1 家误报](https://www.virustotal.com/gui/file/ca6057cfaf73988610ac4bfa0c13179030ec64fb7bdf0d8a08acc0684fa5d4c7)。
 
-报的那家叫 Bkav，越南的引擎，这类误报挺出名。它给的签名是 `W32.Malware.7028EDDD`，通用签名，不是真检测到什么行为。
+报的那家是 Bkav，越南引擎，这类误报挺出名，签名 `W32.Malware.3E69FC40` 是通用的。
 
 还是想加白的话：
 
@@ -152,21 +136,13 @@ exe 没做代码签名，而且是单文件自解压，启动时会释放出东�
 - **火绒** → 托盘图标 → 信任区 → 添加文件
 - **360 / 电脑管家** → 弹窗点「添加信任」，或从隔离区恢复
 
-或者干脆别用。手动删 `%LOCALAPPDATA%\Roblox\rbx-storage\` 里的内容，效果一样。
-
 ## 常见问题
 
 **会被封号吗？**
 不会。删的是本地文件，不上传任何东西，游戏下次启动自己重建。
 
 **要先关游戏吗？**
-要。不关的话按钮不让你点。
-
-**能撤销吗？**
-不能。但那是缓存不是你的数据，会自己回来，只是下次加载慢一点。
-
-**为什么这么小？**
-它只干一件事。没有更新器，没有统计上报，没有后台服务。
+需要先关闭游戏，否则可能会出现游戏内问题
 
 ## 免责声明
 

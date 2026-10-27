@@ -61,8 +61,6 @@ Yes, close the game first, otherwise you may run into problems in-game.
 
 Not affiliated with, endorsed by, or supported by Roblox Corporation. "Roblox" is a trademark of Roblox Corporation.
 
-Something broken? Aflyres@outlook.com
-
 ---
 
 Copyright © 2026. All rights reserved.
@@ -132,8 +130,6 @@ rbx-storage/    logs/    Downloads/    OTAPatchBackups/    tmp-capture-storage/
 需要先关闭游戏，否则可能会出现游戏内问题
 
 本项目与 Roblox Corporation 无任何关联，未获其认可或支持。「Roblox」是 Roblox Corporation 的商标。
-
-出问题了？Aflyres@outlook.com
 
 ---
 

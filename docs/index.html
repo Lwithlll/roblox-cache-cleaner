@@ -127,7 +127,7 @@ header.pinned { border-bottom-color: var(--hairline); }
 
 /* ============================================================ column */
 .col {
-  max-width: 720px; margin: 0 auto;
+  max-width: 880px; margin: 0 auto;
   padding: clamp(56px, 11vh, 104px) clamp(20px, 5vw, 40px) 0;
 }
 
@@ -150,6 +150,8 @@ html[data-lang="zh"] h1 {
   letter-spacing: -.01em;
   line-height: 1.16;
 }
+/* the Chinese headline is one line, so drop the second */
+html[data-lang="zh"] h1 .line:nth-child(2) { display: none; }
 h1 .line > span {
   display: block;
   white-space: nowrap;
@@ -252,6 +254,15 @@ p.body { color: var(--ink-2); margin: 0 0 22px; max-width: 58ch; font-size: 15.5
 }
 .folder .what { font-size: 13px; color: var(--ink-3); margin-left: auto; text-align: right; }
 
+/* wide screens: use the horizontal room instead of one long strip */
+@media (min-width: 760px) {
+  .folders { display: grid; grid-template-columns: 1fr 1fr; column-gap: 44px; }
+  .folder:nth-child(5) { grid-column: 1 / -1; }
+  .split { display: grid; grid-template-columns: 1.14fr .86fr; gap: 40px; align-items: start; }
+  .split .claims { margin-top: 0; }
+  .split .term { font-size: 11.6px; padding: 17px 18px; }
+}
+
 /* terminal */
 .term {
   background: var(--surface); border: 1px solid var(--hairline);
@@ -293,6 +304,23 @@ p.body { color: var(--ink-2); margin: 0 0 22px; max-width: 58ch; font-size: 15.5
 }
 
 /* stats */
+/* VirusTotal report link */
+.vt {
+  display: flex; align-items: center; gap: 14px;
+  margin: 24px 0 0; padding: 15px 20px;
+  border: 1px solid var(--hairline); border-radius: 10px;
+  text-decoration: none; color: var(--ink);
+  transition: border-color .2s var(--ease), background .2s var(--ease);
+}
+.vt:hover { border-color: var(--ink-3); background: var(--surface); }
+.vt-label { font-size: 14.5px; }
+.vt-score {
+  margin-left: auto; font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 13px; color: var(--signal); letter-spacing: .02em;
+}
+.vt svg { width: 13px; height: 13px; color: var(--ink-3); flex: none; }
+.vt:hover svg { color: var(--ink-2); }
+
 .stats {
   display: grid; grid-template-columns: repeat(3, 1fr);
   margin-top: 34px; border-top: 1px solid var(--hairline);
@@ -395,19 +423,17 @@ html.js .reveal.in { opacity: 1; transform: none; filter: none; }
   <p class="eyebrow">Windows 10 / 11 · 64-bit · no installer</p>
 
   <h1>
-    <span class="line" style="--i:0"><span data-en>Roblox never</span><span data-zh>Roblox 从不清理</span></span>
-    <span class="line" style="--i:1"><span data-en>cleans up</span><span data-zh>自己留下的缓存</span></span>
-    <span class="line" style="--i:2"><span data-en>after itself.</span><span data-zh>及更新废弃文件</span></span>
+    <span class="line" style="--i:0"><span data-en>Roblox never</span><span data-zh>Roblox Cache Cleaner Pro</span></span>
+    <span class="line" style="--i:1"><span data-en>cleans up.</span></span>
   </h1>
 
   <p class="lede" data-en>
-    Every asset the game ever downloaded stays on disk. After a few updates that
-    is several gigabytes, and the client starts to hitch. This finds it, shows
-    you the number, and clears it.
+    Downloaded installers and dead assets pile up in the cache. A few updates, or
+    a few different games, easily adds several GB, and the client starts to hitch.
+    This clears the leftovers.
   </p>
   <p class="lede" data-zh>
-    游戏下载过的每个资源都留在硬盘上。几次更新之后就是几个GB，导致游戏内开始掉帧。
-    这个工具找出它们然后清理。
+    游戏下载过的安装包，废弃资源全堆在缓存文件里，更新几次或多游玩了几款游戏就会轻松多出几个G，导致游戏内掉帧卡顿。本工具就是帮助你清这些残留的。
   </p>
 
   <div class="cta-row">
@@ -421,7 +447,7 @@ html.js .reveal.in { opacity: 1; transform: none; filter: none; }
     <a class="ghost" href="#what" data-zh>查看原理</a>
   </div>
 
-  <p class="meta"><span data-en>20 MB · 0 network calls · 1 click</span><span data-zh>20 MB · 0 次联网 · 1 键清理</span></p>
+  <p class="meta"><span data-en>20 MB · 0 network calls · 1 click</span><span data-zh>20 MB · 0 联网功能 · 1 键清理</span></p>
 
   <figure class="shot reveal" style="--d:1">
     <img src="img/main.png" alt="Roblox Cache Cleaner Pro main window" width="780" height="730">
@@ -431,20 +457,19 @@ html.js .reveal.in { opacity: 1; transform: none; filter: none; }
     <div class="sec-head reveal">
       <span class="num">01</span>
       <h2 data-en>What it removes</h2>
-      <h2 data-zh>它清理什么</h2>
+      <h2 data-zh>它的清理目标</h2>
     </div>
     <p class="body reveal" style="--d:1" data-en>
-      Five folders, all under <code>%LOCALAPPDATA%\Roblox\</code>. The folders stay;
-      only their contents go. Nothing outside this list is ever opened.
+      Five folders, all under <code>%LOCALAPPDATA%\Roblox\</code>. The folders stay,
+      only the files inside go. Any of them can be unticked.
     </p>
     <p class="body reveal" style="--d:1" data-zh>
-      五个目录，全部位于 <code>%LOCALAPPDATA%\Roblox\</code>。目录保留只清废弃文件。
-      这个清单之外的东西一概不碰。
+      共五个目录，全部位于 <code>%LOCALAPPDATA%\Roblox\</code>。目录保留，只清里面的废弃文件，支持自由勾选。
     </p>
 
     <div class="folders reveal" style="--d:2">
       <div class="folder"><code>rbx-storage/</code><span class="what" data-en>textures, meshes, audio</span><span class="what" data-zh>贴图、模型、音频</span></div>
-      <div class="folder"><code>logs/</code><span class="what" data-en>keeps the two newest</span><span class="what" data-zh>保留最近两份</span></div>
+      <div class="folder"><code>logs/</code><span class="what" data-en>keeps the two newest</span><span class="what" data-zh>日志仅保留最近两份</span></div>
       <div class="folder"><code>Downloads/</code><span class="what" data-en>installed by past updates</span><span class="what" data-zh>历次更新装的包</span></div>
       <div class="folder"><code>OTAPatchBackups/</code><span class="what" data-en>rollback copies</span><span class="what" data-zh>回滚备份</span></div>
       <div class="folder"><code>tmp-capture-storage/</code><span class="what" data-en>extract leftovers</span><span class="what" data-zh>解包残留</span></div>
@@ -455,17 +480,17 @@ html.js .reveal.in { opacity: 1; transform: none; filter: none; }
     <div class="sec-head reveal">
       <span class="num">02</span>
       <h2 data-en>What it can't do</h2>
-      <h2 data-zh>它不会做什么</h2>
+      <h2 data-zh>安全性</h2>
     </div>
     <p class="body reveal" style="--d:1" data-en>
-      Not a promise — the complete import list of the core module. There is no
-      networking, process-spawning or registry code in the binary, because none
-      was written.
+      The complete import list of the core module. No networking, no process
+      spawning, no registry code — none of it was written.
     </p>
     <p class="body reveal" style="--d:1" data-zh>
-      这是核心的 import 清单。程序里没有联网、启动进程、改注册表的代码
+      这是核心模块的完整 import 清单。程序里没有联网、启动进程、更改注册表的代码。
     </p>
 
+    <div class="split">
     <pre class="term reveal" style="--d:2"><span class="c"># core.py — complete imports</span>
 <span class="k">import</span> ctypes, os, re, shutil
 <span class="k">from</span> ctypes <span class="k">import</span> wintypes
@@ -480,6 +505,7 @@ Process32FirstW(...)   Process32NextW(...)<span class="caret"></span></pre>
       <li><span class="x">—</span><span data-en><b>No registry.</b> No <code>winreg</code>.</span><span data-zh><b>不更改注册表。</b>没有 <code>winreg</code>。</span></li>
       <li><span class="x">—</span><span data-en><b>No game access.</b> The process is never opened, only its name read.</span><span data-zh><b>不修改游戏本体。</b>从不打开进程，只读进程名。</span></li>
     </ul>
+    </div>
   </section>
 
   <section id="av">
@@ -489,13 +515,12 @@ Process32FirstW(...)   Process32NextW(...)<span class="caret"></span></pre>
       <h2 data-zh>杀毒软件</h2>
     </div>
     <p class="body reveal" style="--d:1" data-en>
-      The binary is unsigned, and it unpacks native modules at launch. Both look
-      suspicious to heuristics, so Defender, Huorong or 360 may flag it. That is a
-      packaging artefact, not behaviour — but you should not have to take my word
-      for it.
+      The exe is unsigned, and it unpacks native modules at launch. Both trip
+      heuristic scanners, so Defender, Huorong or 360 may flag it. That is a
+      packaging artefact, not behaviour.
     </p>
     <p class="body reveal" style="--d:1" data-zh>
-      程序未签名，且启动时会解出原生模块。这两点都会触发启发式引擎，Defender、火绒、360
+      因程序未签名，且启动时会解出原生模块。这两点都会触发启发式引擎，Defender、火绒、360
       可能报毒。
     </p>
 
@@ -506,6 +531,16 @@ Process32FirstW(...)   Process32NextW(...)<span class="caret"></span></pre>
     <p class="note reveal" style="--d:2" data-zh>
       不放心？手动删除 <code>%LOCALAPPDATA%\Roblox\rbx-storage\</code> 里的内容，效果完全一样。
     </p>
+
+    <a class="vt reveal" style="--d:2"
+       href="https://www.virustotal.com/gui/file/ca6057cfaf73988610ac4bfa0c13179030ec64fb7bdf0d8a08acc0684fa5d4c7"
+       target="_blank" rel="noopener">
+      <span class="vt-label" data-en>VirusTotal report</span>
+      <span class="vt-label" data-zh>VirusTotal 检测报告</span>
+      <span class="vt-score">66 / 67</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+           stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
+    </a>
 
     <div class="stats reveal" style="--d:3">
       <div class="stat"><span class="n">5</span><span class="l" data-en>folders touched</span><span class="l" data-zh>个目录</span></div>
@@ -533,6 +568,8 @@ Process32FirstW(...)   Process32NextW(...)<span class="caret"></span></pre>
       <p data-zh>需要，游戏运行时「开始清理」会自动禁用，避免出现问题。</p>
     </details>
 
+
+  </section>
 
   <footer>
     <p data-en>Not affiliated with, endorsed by, or supported by Roblox Corporation. “Roblox” is a trademark of Roblox Corporation.</p>
@@ -631,11 +668,8 @@ if (heroBtn && "IntersectionObserver" in window) {
     theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
   }
   document.documentElement.dataset.theme = theme;
-  // English is the default for a first visit; a manual choice is remembered.
-  // Deliberately not using navigator.language: the audience is international and
-  // guessing produced Chinese on Chinese systems, which is the wrong default.
   if (!lang) {
-    lang = "en";
+    lang = (navigator.language || "en").toLowerCase().indexOf("zh") === 0 ? "zh" : "en";
   }
   document.documentElement.dataset.lang = "__init";
   setLang(lang, true);

@@ -169,6 +169,11 @@ h1 .line > span {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: none; }
 }
+/* 46ch is a Latin measure; at 17px it fits only ~23 CJK glyphs and forces a
+   third line with a ragged tail */
+html[data-lang="zh"] .lede { max-width: none; text-wrap: pretty; }
+/* keep a two-character word from being split across lines */
+.nw { white-space: nowrap; }
 
 .cta-row {
   display: flex; align-items: center; gap: 22px; flex-wrap: wrap;
@@ -445,7 +450,7 @@ html.js .reveal.in { opacity: 1; transform: none; filter: none; }
     This clears the leftovers.
   </p>
   <p class="lede" data-zh>
-    游戏下载过的安装包，废弃资源全堆在缓存文件里，更新几次或多游玩了几款游戏就会轻松多出几个G，导致游戏内掉帧卡顿。本工具就是帮助你清这些残留的。
+    游戏下载过的安装包，废弃资源全堆在缓存文件里，更新几次或多游玩了几款游戏就会轻松多出几个G，<span class="nw">导致</span>游戏内掉帧卡顿。本工具就是帮助你清这些残留的。
   </p>
 
   <div class="cta-row">
@@ -553,8 +558,8 @@ Process32FirstW(...)   Process32NextW(...)<span class="caret"></span></pre>
       </svg>
       <span class="vt-label" data-en>VirusTotal report</span>
       <span class="vt-label" data-zh>VirusTotal 检测报告</span>
-      <span class="vt-hint" data-en>opens in a new tab</span>
-      <span class="vt-hint" data-zh>新窗口打开</span>
+      <span class="vt-hint" data-en>Click to view</span>
+      <span class="vt-hint" data-zh>点击查看报告</span>
       <span class="vt-score">66 / 67</span>
       <svg class="vt-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
            stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>

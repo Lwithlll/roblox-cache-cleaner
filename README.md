@@ -1,197 +1,178 @@
 # Roblox Cache Cleaner Pro
 
-> Frees the disk space Roblox never cleans up after itself.
+Roblox never deletes its cache. This does.
+
+Windows 10 / 11, 64-bit. No installer, no admin rights, nothing to install first.
 
 **English** · [中文](#中文)
 
 ---
 
-## English
+## Download
 
-Roblox keeps every asset it ever downloaded. After a few updates that folder can
-grow to several GB, and the game starts to stutter. This tool finds that cache,
-shows you how much it is, and deletes it in one click.
-
-Windows 10 / 11 · 64-bit · No installation, no runtime, no admin rights
-
-### Download
-
-**[⬇ Download the latest release](https://github.com/Lwithlll/roblox-cache-cleaner/releases/latest)**
+**[Get the latest release](https://github.com/Lwithlll/roblox-cache-cleaner/releases/latest)**
 
 Unzip it anywhere and run `Roblox Cache Cleaner Pro.exe`.
 
-[**VirusTotal report**](https://www.virustotal.com/gui/file/081f15b285f7862ac7c134f314de3449d478d19e8c614153e95d730a6233cbd4) — 56 of 57 engines find nothing.
-The one that does (Bkav) is a known false positive on unsigned builds; see
-[Antivirus](#antivirus) below.
+[VirusTotal](https://www.virustotal.com/gui/file/2c17052d89a5d1052d0571be7f82f6be75f9a8c7d58393c6ea6dd580e1311759): 66 of 67 engines find nothing. The one that does is Bkav, and it's wrong. More on that below.
 
-SHA-256: `081f15b285f7862ac7c134f314de3449d478d19e8c614153e95d730a6233cbd4`
-
-> The executable is not code-signed. See [Antivirus](#antivirus) below.
-
-### Screenshot
+SHA-256: `2c17052d89a5d1052d0571be7f82f6be75f9a8c7d58393c6ea6dd580e1311759`
 
 ![Main window](docs/img/main.png)
 
-### What it does
+## What it actually does
 
-1. **Checks whether Roblox is running** — using `CreateToolhelp32Snapshot` /
-   `Process32FirstW` / `Process32NextW`, the standard read-only process
-   enumeration API. It reads the list of process names and nothing else. The
-   game process is never opened.
-2. **Deletes files inside five cache folders**, all under `%LOCALAPPDATA%\Roblox\`:
+Two things.
 
-   ```
-   rbx-storage/    logs/    Downloads/    OTAPatchBackups/    tmp-capture-storage/
-   ```
+**1. Checks whether Roblox is running.** If it is, the Clean button stays disabled. You don't get to fight a live process for its own files.
 
-   The folders themselves are kept — only their contents are removed.
+**2. Deletes the contents of five folders**, all under `%LOCALAPPDATA%\Roblox\`:
 
-### What it does NOT do
+```
+rbx-storage/    logs/    Downloads/    OTAPatchBackups/    tmp-capture-storage/
+```
 
-The complete import list of the core module is five entries:
+The folders stay. Only what's inside them goes. Anything not on that list is never opened.
+
+You can untick any of the five before cleaning, and the total on the right only counts what's ticked.
+
+## What it doesn't do
+
+Here's the entire import list from the core module. Not a summary, the whole thing:
 
 ```python
 import ctypes, os, re, shutil
 from ctypes import wintypes
 ```
 
-No `socket`, no `urllib`, no `requests`, no `subprocess`, no `winreg`.
+No `socket`. No `requests`. No `subprocess`. No `winreg`.
 
-It cannot reach the network, edit the registry, launch other programs, or read
-or write game memory — **that code does not exist**.
+So it can't go online, can't write to the registry, can't start other programs, can't read game memory. There is no code for any of it.
 
-It does not touch game files, saves, settings, or account data.
+It also doesn't touch your game files, saves, settings or account.
 
-### Antivirus
+## Antivirus
 
-The executable is **not code-signed**, and it is packed as a single file that
-unpacks native modules at runtime. Both of those look suspicious to heuristic
-scanners, so Windows Defender, Huorong, 360 and similar tools may flag it.
+The exe isn't code-signed, and it's packed as a single file that unpacks itself at launch. Both of those look suspicious to scanners, so Defender, Huorong or 360 may pop up a warning.
 
-This is a false positive caused by the packaging method, not by anything the
-program does.
+That's a packaging problem, not a behaviour problem. But you shouldn't just take my word for it, so here's the VirusTotal report for the exact file you're downloading: [66 clean, 1 wrong](https://www.virustotal.com/gui/file/2c17052d89a5d1052d0571be7f82f6be75f9a8c7d58393c6ea6dd580e1311759).
 
-**The current build's [VirusTotal report](https://www.virustotal.com/gui/file/081f15b285f7862ac7c134f314de3449d478d19e8c614153e95d730a6233cbd4)**: 56 engines clean, 1 flags it
-(Bkav, `W32.Malware.653B6344`). Bkav is well known for flagging unsigned
-PyInstaller and Cython builds; the signature is generic, not behavioural.
+The one flag is Bkav, a Vietnamese engine that's known for this. Its signature is `W32.Malware.7028EDDD`, which is generic, not a behaviour it observed.
 
-To allow it:
+If you want to allow it anyway:
 
-- **Windows Defender** — Windows Security → Virus & threat protection →
-  Manage settings → Exclusions → Add an exclusion → File
-- **Huorong** — tray icon → Trust Zone → Add file
-- **360 / PC Manager** — click "Add to trust" in the popup, or restore it from
-  the quarantine list
+- **Windows Defender** → Virus & threat protection → Manage settings → Exclusions → Add an exclusion → File
+- **Huorong** → tray icon → Trust Zone → Add file
+- **360 / PC Manager** → click "Add to trust" in the popup, or restore it from quarantine
 
-If you would rather not trust it: deleting the contents of
-`%LOCALAPPDATA%\Roblox\rbx-storage\` by hand does exactly the same thing.
+Or don't run it at all. Deleting the contents of `%LOCALAPPDATA%\Roblox\rbx-storage\` by hand does the same thing.
 
-### FAQ
+## Questions
 
-**Does it affect my account?**
-No. It deletes local cache files. Nothing is uploaded, and Roblox rebuilds the
-cache on its next launch.
+**Will this get me banned?**
+No. It deletes local files. Nothing is uploaded, and Roblox rebuilds the cache next launch.
 
-**Do I need to close Roblox first?**
-Yes — the Clean button is disabled while the game is running, so the tool will
-not fight a live process.
+**Do I need to close the game first?**
+Yes. The button won't let you start otherwise.
 
 **Can I undo it?**
-Not directly, but the cache is not data you own — it is re-downloaded
-automatically. The only cost is a slightly longer next load.
+No. But it's cache, not your data. It comes back on its own, just slower the first time.
 
-### Disclaimer
+**Why is it so small?**
+It only does one job. There's no updater, no telemetry, no background service.
 
-Not affiliated with, endorsed by, or supported by Roblox Corporation.
-"Roblox" is a trademark of Roblox Corporation. This is an unofficial third-party
-tool.
+## Disclaimer
 
-Contact: Aflyres@outlook.com
+Not affiliated with, endorsed by, or supported by Roblox Corporation. "Roblox" is a trademark of Roblox Corporation.
+
+Something broken? Aflyres@outlook.com
 
 ---
 
 ## 中文
 
-Roblox 会把下载过的资源全部留着，几次更新之后缓存能堆到几个 GB，游戏也开始卡。
-这个工具找出这些缓存、告诉你占了多少、一键删掉。
+Roblox 自己不清缓存。这个工具清。
 
-Windows 10 / 11 · 64 位 · 免安装 · 无需运行环境 · 无需管理员权限
+Windows 10 / 11，64 位。免安装，不用管理员权限，也不用先装别的东西。
 
-### 下载
+## 下载
 
-**[⬇ 下载最新版本](https://github.com/Lwithlll/roblox-cache-cleaner/releases/latest)**
+**[下载最新版本](https://github.com/Lwithlll/roblox-cache-cleaner/releases/latest)**
 
-解压到任意目录，双击 `Roblox Cache Cleaner Pro.exe`。
+解压到任意位置，双击 `Roblox Cache Cleaner Pro.exe`。
 
-### 截图
+[VirusTotal 报告](https://www.virustotal.com/gui/file/2c17052d89a5d1052d0571be7f82f6be75f9a8c7d58393c6ea6dd580e1311759)：67 家引擎里 66 家没报。报的那家是 Bkav，它报错了。
+
+SHA-256：`2c17052d89a5d1052d0571be7f82f6be75f9a8c7d58393c6ea6dd580e1311759`
 
 ![主界面](docs/img/main.png)
 
-### 它做什么
+## 它到底做什么
 
-1. **判断 Roblox 是否在运行** —— 用 `CreateToolhelp32Snapshot` /
-   `Process32FirstW` / `Process32NextW`，Windows 标准的只读进程枚举接口。
-   只读取进程名列表，从不打开游戏进程。
-2. **删除 5 个缓存目录里的文件**，全部位于 `%LOCALAPPDATA%\Roblox\`：
+就两件事。
 
-   ```
-   rbx-storage/    logs/    Downloads/    OTAPatchBackups/    tmp-capture-storage/
-   ```
+**一、看 Roblox 在不在运行。** 在运行的话「开始清理」按钮点不了。不跟正在跑的游戏抢文件。
 
-   目录本身保留，只清空里面的内容。
+**二、删掉五个目录里的东西**，都在 `%LOCALAPPDATA%\Roblox\` 下面：
 
-### 它不做什么
+```
+rbx-storage/    logs/    Downloads/    OTAPatchBackups/    tmp-capture-storage/
+```
 
-核心模块的全部 import 只有五个：
+目录留着，只清里面的东西。这个清单之外的，一概不碰。
+
+清理前可以取消勾选任意几项，右边的合计只算你勾上的部分。
+
+## 它不做什么
+
+核心模块的 import 就这几行。不是概括，是全部：
 
 ```python
 import ctypes, os, re, shutil
 from ctypes import wintypes
 ```
 
-没有 `socket`、没有 `urllib`、没有 `requests`、没有 `subprocess`、没有 `winreg`。
+没有 `socket`，没有 `requests`，没有 `subprocess`，没有 `winreg`。
 
-它**没有能力**联网、改注册表、调用外部程序、读写游戏内存——这些代码根本不存在。
+所以它联不了网、写不了注册表、起不了别的程序、读不了游戏内存。这些代码根本不存在。
 
-不修改游戏文件、存档、设置，也不碰账号数据。
+游戏文件、存档、设置、账号数据，它也不碰。
 
-### 杀毒软件
+## 杀毒软件
 
-程序**未做代码签名**，且是单文件自解压结构，两者都会让启发式引擎警觉，
-Windows Defender、火绒、360 等可能报毒。
+exe 没做代码签名，而且是单文件自解压，启动时会释放出东西来。这两点都容易让杀软弹窗，Defender、火绒、360 都可能。
 
-这是打包方式导致的误报，不是程序行为有问题。
+这是打包方式的问题，不是行为的问题。但光我说没用，你下载的那个文件在 VirusTotal 上是 [66 家干净、1 家误报](https://www.virustotal.com/gui/file/2c17052d89a5d1052d0571be7f82f6be75f9a8c7d58393c6ea6dd580e1311759)。
 
-**当前版本的 [VirusTotal 报告](https://www.virustotal.com/gui/file/081f15b285f7862ac7c134f314de3449d478d19e8c614153e95d730a6233cbd4)**：56 家引擎未发现威胁，1 家报毒
-（Bkav，`W32.Malware.653B6344`）。Bkav 对未签名的 PyInstaller / Cython 打包程序
-误报率很高，这个签名是通用的，不是行为判定。
+报的那家叫 Bkav，越南的引擎，这类误报挺出名。它给的签名是 `W32.Malware.7028EDDD`，通用签名，不是真检测到什么行为。
 
-加白方法：
+还是想加白的话：
 
-- **Windows Defender** —— Windows 安全中心 → 病毒和威胁防护 → 管理设置 →
-  排除项 → 添加或删除排除项 → 文件
-- **火绒** —— 托盘图标 → 信任区 → 添加文件
-- **360 / 电脑管家** —— 弹窗点「添加信任」，或从隔离区恢复
+- **Windows Defender** → 病毒和威胁防护 → 管理设置 → 排除项 → 添加或删除排除项 → 文件
+- **火绒** → 托盘图标 → 信任区 → 添加文件
+- **360 / 电脑管家** → 弹窗点「添加信任」，或从隔离区恢复
 
-如果不放心：手动删除 `%LOCALAPPDATA%\Roblox\rbx-storage\` 里的内容，效果完全一样。
+或者干脆别用。手动删 `%LOCALAPPDATA%\Roblox\rbx-storage\` 里的内容，效果一样。
 
-### 常见问题
+## 常见问题
 
-**会影响账号吗？**
-不会。删的是本地缓存，不上传任何数据，Roblox 下次启动会自动重建。
+**会被封号吗？**
+不会。删的是本地文件，不上传任何东西，游戏下次启动自己重建。
 
-**需要先关掉 Roblox 吗？**
-需要。游戏运行时「开始清理」按钮会自动禁用，避免和正在运行的游戏抢文件。
+**要先关游戏吗？**
+要。不关的话按钮不让你点。
 
 **能撤销吗？**
-不能，但缓存不是你的数据，会自动重新下载，代价只是下次加载稍慢。
+不能。但那是缓存不是你的数据，会自己回来，只是下次加载慢一点。
 
-### 免责声明
+**为什么这么小？**
+它只干一件事。没有更新器，没有统计上报，没有后台服务。
 
-本项目与 Roblox Corporation 无任何关联，未获其认可或支持。
-「Roblox」是 Roblox Corporation 的商标。这是一个非官方第三方工具。
+## 免责声明
 
-联系邮箱：Aflyres@outlook.com
+本项目与 Roblox Corporation 无任何关联，未获其认可或支持。「Roblox」是 Roblox Corporation 的商标。
+
+出问题了？Aflyres@outlook.com
 
 ---
 

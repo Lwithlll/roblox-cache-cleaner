@@ -1,16 +1,16 @@
 # Roblox Cache Cleaner Pro
 
+Windows 10 / 11, 64-bit
+
 **English** · [中文](#中文)
 
 ## Download
-
-Windows 10 / 11 (64-bit) only
 
 **[Get the latest release](https://github.com/Lwithlll/roblox-cache-cleaner/releases/latest)**
 
 Unzip it anywhere after downloading.
 
-![Main window](docs/img/main.png)
+![Main window](https://github.com/Lwithlll/roblox-cache-cleaner/raw/main/docs/img/main.png)
 
 ## How to use
 
@@ -76,15 +76,15 @@ Binary redistribution is permitted. Re-uploading this build as your own work is 
 
 # Roblox Cache Cleaner Pro
 
-## 下载
+Windows 10 / 11，64 位
 
-仅支持Windows 10 / 11，64 位
+## 下载
 
 **[下载最新版本](https://github.com/Lwithlll/roblox-cache-cleaner/releases/latest)**
 
 下载完成后解压到任意位置
 
-![主界面](docs/img/main.png)
+![主界面](https://github.com/Lwithlll/roblox-cache-cleaner/raw/main/docs/img/main.png)
 
 ## 使用教程
 

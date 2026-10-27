@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-lang="en" data-theme="light">
+<html lang="en" data-lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -620,7 +620,7 @@ function setLang(lang, instant) {
     root.lang = lang === "zh" ? "zh-CN" : "en";
     document.getElementById("btnEn").setAttribute("aria-pressed", lang === "en");
     document.getElementById("btnZh").setAttribute("aria-pressed", lang === "zh");
-    
+    try { localStorage.setItem("lang", lang); } catch (e) {}
   }
   var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (instant || calm) { apply(); return; }
@@ -634,7 +634,7 @@ function setLang(lang, instant) {
 /* ---------- theme ---------- */
 function setTheme(mode) {
   document.documentElement.dataset.theme = mode;
-  
+  try { localStorage.setItem("theme", mode); } catch (e) {}
 }
 document.getElementById("themeBtn").addEventListener("click", function () {
   setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
@@ -678,14 +678,19 @@ if (heroBtn && "IntersectionObserver" in window) {
   }, { threshold: 0 }).observe(heroBtn);
 }
 
-/* ---------- boot: always light + English ---------- */
+/* ---------- boot: stored prefs, else system ---------- */
 (function () {
-  // Deliberately not reading localStorage or navigator.language here: the page
-  // has to look the same for everyone on first paint. The toggles still work
-  // for the current visit, they just don't survive a reload.
-  document.documentElement.dataset.theme = "light";
+  var theme = null, lang = null;
+  try { theme = localStorage.getItem("theme"); lang = localStorage.getItem("lang"); } catch (e) {}
+  if (!theme) {
+    theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+  }
+  document.documentElement.dataset.theme = theme;
+  if (!lang) {
+    lang = (navigator.language || "en").toLowerCase().indexOf("zh") === 0 ? "zh" : "en";
+  }
   document.documentElement.dataset.lang = "__init";
-  setLang("en", true);
+  setLang(lang, true);
 })();
 </script>
 </body>
